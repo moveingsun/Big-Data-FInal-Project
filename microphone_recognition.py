@@ -7,7 +7,10 @@ import webbrowser
 from os import path
 from interface import ModelInterface
 from utils import read_wav
-import pygame
+import wave
+import numpy as np
+import scipy.signal as signal
+# import pygame
 import sys
 # obtain audio from the microphone
 
@@ -16,11 +19,14 @@ with sr.Microphone() as source:
     print("Say something for 10s")
     audio = r.listen(source)
     print("In processing, please be patient :-)")
+    with open("microphone-results.wav", "wb") as f:
+        f.write(audio.get_wav_data())
+    AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "microphone-results.wav")
 
 src = r.recognize_google(audio)
 try:
     m = ModelInterface.load(path.join(path.dirname(path.realpath(__file__)), "model.out"))
-    fs, signal = read_wav(audio)
+    fs, signal = read_wav(AUDIO_FILE)
     newName = m.predict(fs, signal)
     f = open("temp.txt","rb+")
     name = f.readline()
