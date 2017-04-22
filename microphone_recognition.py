@@ -42,7 +42,7 @@ try:
 
     if 'hello' in src or 'hi' in src:
         print("Hi!")
-    elif 'weather' and 'what' in src:
+    elif 'weather' in src and 'what' in src:
         if 'today' not in src and 'tomorrow' not in src:
             print("Please specific the date.")
         elif 'today' in src:
@@ -53,7 +53,7 @@ try:
             google = 'weather tomorrow'
             print("Searching on the Internet...")
             webbrowser.open('http://www.google.com/search?btnG=1&q=%s' % google)
-    elif 'myneu' in src:
+    elif 'my' in src and 'neu' in src or 'Neu' in src:
         print("Searching on the Internet...")
         webbrowser.open('https://myneu.neu.edu/cp/home/displaylogin')
     elif 'your' in src and 'favourite' in src and 'color' in src or 'colour' in src:
@@ -76,14 +76,15 @@ try:
     elif 'big' in src and 'data' in src:
         print("Love you! Dino!")
     elif 'record' in src and 'voice' in src:
-        f = open("temp.txt", "rb+")
+        f = open("tempfile.txt", "rb+")
         f.truncate(0)
         f.write(bytes(src, 'utf8'))
         f.close()
+        print("Please open the 'tempfile.txt' to see your voice.")
     elif 'How' in src and 'are' in src and 'you' in src and 'old' not in src:
         print("I am fine, thank you, and you? :-)")
     else:
-        f = open("temp.txt", "rb+")
+        f = open("tempfile.txt", "rb+")
         f.truncate(0)
         f.write(bytes(src, 'utf8'))
         f.close()
