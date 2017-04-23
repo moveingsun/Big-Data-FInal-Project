@@ -76,7 +76,7 @@ try:
     elif 'How' in src and 'are' in src and 'you' in src and 'old' not in src:
         print("I am fine, thank you, and you? :-)")
     else:
-        f = open("temp.txt", "rb+")
+        f = open("temp_voice.txt", "rb+")
         f.truncate(0)
         f.write(bytes(src, 'utf8'))
         f.close()
