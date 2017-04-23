@@ -70,6 +70,7 @@ try:
             webbrowser.open('http://www.google.com/search?btnG=1&q=%s' % google)
     elif 'my' in src and 'neu' in src or 'Neu' in src:
         print("Searching on the Internet...")
+        os.system("espeak 'Searching on the Internet' &")
         webbrowser.open('https://myneu.neu.edu/cp/home/displaylogin')
     elif 'your' in src and 'favourite' in src and 'color' in src or 'colour' in src:
         print("My favourite color is bule, what about you?")
