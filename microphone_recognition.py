@@ -130,7 +130,7 @@ try:
     elif ('who' in src and 'you' in src) or ('what' in src and 'your' in src and 'name' in src):
         print("I am spark.")
         os.system("espeak 'I am spark ' &")
-        time.slepp(2)
+        time.sleep(2)
     elif 'weather' in src and ('what' in src or 'how' in src or 'How' in src or 'What' in src):
         if 'today' not in src and 'tomorrow' not in src:
             print("Please specific the date.")
