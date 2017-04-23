@@ -79,7 +79,8 @@ GOOGLE_CLOUD_SPEECH_CREDENTIALS = r"""
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/speechproject%40friendly-lamp-165519.iam.gserviceaccount.com"
 }
 """
-src=r.recognize_google_cloud(audio, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS)
+srcUP=r.recognize_google_cloud(audio, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS)
+src=srcUP.lower()
 
 try:
     rand = random.randint(1, 9)
@@ -112,10 +113,10 @@ try:
         time.sleep(2)
 
 
-    if 'hello' in src or 'hi' in src:
+    if 'hello' in src or 'hi' in src or 'Hi' in src or 'Hello' in src:
         print("Hi! "+newName)
         os.system("espeak 'Hi' &")
-    elif 'good' in src:
+    elif 'good' in src and 'bye' not in src and 'Bye' not in src:
         if 'morning' in src:
             print("Good morning")
             os.system("espeak 'Good morning' &")
@@ -126,21 +127,11 @@ try:
             print("Yeah, that's good.")
             os.system("espeak 'Yeah, that's good.' &")
         time.sleep(2)
-    elif 'who' in src and 'i' in src:
-        print("Lovely question "+newName)
-        os.system("espeak 'Lovely question' &")
-        time.sleep(2)
-    elif 'I' in src or 'i' in src and 'am' in src:
-        char = src.find('am') + 3
-        spilt = src[char:]
-        print("Long time no see "+ spilt)
-        os.system("espeak 'Long time no see' &")
-        time.sleep(2)
     elif ('who' in src and 'you' in src) or ('what' in src and 'your' in src and 'name' in src):
         print("I am spark.")
         os.system("espeak 'I am spark ' &")
         time.slepp(2)
-    elif 'weather' and ('what' in src or 'how' in src or 'How' in src or 'What' in src):
+    elif 'weather' in src and ('what' in src or 'how' in src or 'How' in src or 'What' in src):
         if 'today' not in src and 'tomorrow' not in src:
             print("Please specific the date.")
             os.system("espeak 'Please specific the date.' &")
@@ -156,13 +147,13 @@ try:
             print("Searching on the Internet...")
             os.system("espeak 'Searching on the Internet' &")
             webbrowser.open('http://www.google.com/search?btnG=1&q=%s' % google)
-    elif 'my' in src and 'neu' in src or 'Neu' in src:
+    elif ('my' in src  or 'My' in src )and ('neu' in src or 'Neu' in src):
         print("Searching on the Internet...")
         os.system("espeak 'Searching on the Internet' &")
         webbrowser.open('https://myneu.neu.edu/cp/home/displaylogin')
     elif 'joke' in src:
-        print("HaHaHaHaHaHa Ha Ha Ha Ha Ha.")
-        os.system("espeak 'HaHaHaHaHaHa Ha Ha Ha Ha Ha.' &")
+        print("HaHaHaHaHaHa hahahahahahaha.")
+        os.system("espeak 'HaHaHaHaHaHa hahahahahahaha.' &")
         time.sleep(2)
     elif 'your' in src and 'favorite' in src and 'color' in src or 'colour' in src:
         print("My favourite color is bule, what about you?")
@@ -183,15 +174,15 @@ try:
         print("Do you like it? ;-)")
         os.system("espeak 'Do you like it?'&")
         time.sleep(2)
-    elif 'big' in src and 'data' in src:
+    elif 'big' in src or 'Big' in src and 'data' in src:
         print("Love you! Dino!")
         os.system("espeak 'Love you! Dino!' &")
         time.sleep(2)
-    elif 'Goodbye' in src or 'goodbye' in src or 'bye' in src:
+    elif 'Goodbye' in src or 'goodbye' in src or 'bye' in src or 'Bye' in src:
         print("Bye! ;-)")
         os.system("espeak 'Bye' &")
         time.sleep(2)
-    elif 'record' in src:
+    elif 'record' in src and 'Record' in src:
         char = src.find('record') + 7
         spilt = src[char:]
         f = open("tempfile.txt", "rb+")
@@ -200,15 +191,14 @@ try:
         f.close()
         print("Finished")
         os.system("espeak 'Finished' &")
-    elif 'record' in src and 'voice' in src:
-        f = open("tempfile.txt", "rb+")
-        f.truncate(0)
-        f.write(bytes(src, 'utf8'))
-        f.close()
         print("Please open the 'tempfile.txt' to see your voice.")
     elif 'how' in src and 'are' in src and 'you' in src and 'old' not in src:
         print("I am fine, thank you, and you? :-)")
         os.system("espeak 'I am fine, thank you, and you' &")
+        time.sleep(2)
+    elif 'who' in src and 'i' in src and 'am' in src:
+        print("Lovely question, I think you are "+newName)
+        os.system("espeak 'Lovely question' &")
         time.sleep(2)
     else:
         f = open("tempfile.txt", "rb+")
@@ -258,8 +248,8 @@ try:
                 os.system("espeak 'I am out of working.' &")
                 time.sleep(2)
         elif rand == 8:
-                print("I'd rather not.")
-                os.system("espeak 'I'd rather not.' &")
+                print("I would rather not.")
+                os.system("espeak 'I would rather not.' &")
                 time.sleep(2)
         else:
             print("Make it clear.")
