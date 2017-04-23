@@ -12,17 +12,58 @@ import sys
 import os
 import random
 import time
+import wave
+import numpy as np
+import pyaudio
 # obtain audio from the microphone
 
-r = sr.Recognizer()
-with sr.Microphone() as source:
-    print("Say something to me")
-    audio = r.listen(source)
-    print("In processing, please be patient :-)")
-    with open("microphone-results.wav", "wb") as f:
-        f.write(audio.get_wav_data())
-    AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "microphone-results.wav")
+chunk = 1024
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 22050
+RECORD_SECONDS = 5
+filename = "microphone-results.wav"
+WAVE_OUTPUT_FILENAME = filename
+p = pyaudio.PyAudio()
 
+stream = p.open(format=FORMAT,
+                channels=CHANNELS,
+                rate=RATE,
+                input=True,
+                frames_per_buffer=chunk)
+
+print("Say something to me")
+all = []
+for i in range(0, int(RATE / chunk * RECORD_SECONDS)):
+    data = stream.read(chunk)
+    all.append(data)
+print("In processing, please be patient :-)")
+
+stream.close()
+p.terminate()
+
+# write data to WAVE file
+
+
+data = b''.join(all)
+wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+wf.setnchannels(CHANNELS)
+wf.setsampwidth(p.get_sample_size(FORMAT))
+wf.setframerate(RATE)
+wf.writeframes(data)
+wf.close()
+
+
+r = sr.Recognizer()
+#with sr.Microphone() as source:
+
+#    audio = r.listen(source)
+
+#    with open("microphone-results.wav", "wb") as f:
+#        f.write(audio.get_wav_data())
+AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "microphone-results.wav")
+with sr.AudioFile(AUDIO_FILE) as source:
+    audio = r.record(source)
 # src = r.recognize_google(audio)
 GOOGLE_CLOUD_SPEECH_CREDENTIALS = r"""
 {
@@ -74,7 +115,32 @@ try:
     if 'hello' in src or 'hi' in src:
         print("Hi! "+newName)
         os.system("espeak 'Hi' &")
-    elif 'weather' in src and 'what' in src:
+    elif 'good' in src:
+        if 'morning' in src:
+            print("Good morning")
+            os.system("espeak 'Good morning' &")
+        elif 'evening' in src:
+            print("Good evening")
+            os.system("espeak 'Good evening' &")
+        else:
+            print("Yeah, that's good.")
+            os.system("espeak 'Yeah, that's good.' &")
+        time.sleep(2)
+    elif 'who' in src and 'i' in src:
+        print("Lovely question "+newName)
+        os.system("espeak 'Lovely question' &")
+        time.sleep(2)
+    elif 'I' in src or 'i' in src and 'am' in src:
+        char = src.find('am') + 3
+        spilt = src[char:]
+        print("Long time no see "+ spilt)
+        os.system("espeak 'Long time no see' &")
+        time.sleep(2)
+    elif ('who' in src and 'you' in src) or ('what' in src and 'your' in src and 'name' in src):
+        print("I am spark.")
+        os.system("espeak 'I am spark ' &")
+        time.slepp(2)
+    elif 'weather' and ('what' in src or 'how' in src or 'How' in src or 'What' in src):
         if 'today' not in src and 'tomorrow' not in src:
             print("Please specific the date.")
             os.system("espeak 'Please specific the date.' &")
@@ -94,26 +160,46 @@ try:
         print("Searching on the Internet...")
         os.system("espeak 'Searching on the Internet' &")
         webbrowser.open('https://myneu.neu.edu/cp/home/displaylogin')
+    elif 'joke' in src:
+        print("HaHaHaHaHaHa Ha Ha Ha Ha Ha.")
+        os.system("espeak 'HaHaHaHaHaHa Ha Ha Ha Ha Ha.' &")
+        time.sleep(2)
     elif 'your' in src and 'favorite' in src and 'color' in src or 'colour' in src:
         print("My favourite color is bule, what about you?")
         os.system("espeak 'My favourite color is bule, what about you?' &")
-    elif 'favourite' in src or 'song' in src:
+    elif 'favorite' in src or 'song' in src:
         pygame.init()
         pygame.mixer.init()
         END = pygame.USEREVENT + 1
         pygame.mixer.music.set_endevent(END)
-        track = pygame.mixer.music.load("audio/english.wav")
+        track = pygame.mixer.music.load("audio/Shape of You.mp3")
         pygame.mixer.music.play()
-        pygame.mixer.music.fadeout(20000)
+        pygame.mixer.music.fadeout(15000)
 
         while 1:
             for event in pygame.event.get():
                 if event.type == END:
                     sys.exit()
+        print("Do you like it? ;-)")
+        os.system("espeak 'Do you like it?'&")
+        time.sleep(2)
     elif 'big' in src and 'data' in src:
         print("Love you! Dino!")
         os.system("espeak 'Love you! Dino!' &")
         time.sleep(2)
+    elif 'Goodbye' in src or 'goodbye' in src or 'bye' in src:
+        print("Bye! ;-)")
+        os.system("espeak 'Bye' &")
+        time.sleep(2)
+    elif 'record' in src:
+        char = src.find('record') + 7
+        spilt = src[char:]
+        f = open("tempfile.txt", "rb+")
+        f.truncate(0)
+        f.write(bytes(spilt, 'utf8'))
+        f.close()
+        print("Finished")
+        os.system("espeak 'Finished' &")
     elif 'record' in src and 'voice' in src:
         f = open("tempfile.txt", "rb+")
         f.truncate(0)
@@ -129,7 +215,21 @@ try:
         f.truncate(0)
         f.write(bytes(src, 'utf8'))
         f.close()
-        if rand ==1:
+        if 'search' in src or 'Search' in src:
+            char = src.find('search') + 7
+            spilt = src[char:]
+            print("Searching on the Internet...")
+            os.system("espeak 'Searching on the Internet' &")
+            webbrowser.open('http://www.google.com/search?btnG=1&q=%s' % spilt)
+            time.sleep(2)
+        elif 'what' in src or 'What' in src:
+            char = src.find('what') + 5
+            spilt = src[char:]
+            print("Searching on the Internet...")
+            os.system("espeak 'Searching on the Internet' &")
+            webbrowser.open('http://www.google.com/search?btnG=1&q=%s' % spilt)
+            time.sleep(2)
+        elif rand ==1:
             print("Sorry, I can't understand you.")
             os.system("espeak 'Sorry, I can't understand you.' &")
             time.sleep(2)
