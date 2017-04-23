@@ -7,9 +7,6 @@ import webbrowser
 from os import path
 from interface import ModelInterface
 from utils import read_wav
-import wave
-import numpy as np
-import scipy.signal as signal
 import pygame
 import sys
 import os
@@ -26,7 +23,23 @@ with sr.Microphone() as source:
         f.write(audio.get_wav_data())
     AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "microphone-results.wav")
 
-src = r.recognize_google(audio)
+# src = r.recognize_google(audio)
+GOOGLE_CLOUD_SPEECH_CREDENTIALS = r"""
+{
+  "type": "service_account",
+  "project_id": "friendly-lamp-165519",
+  "private_key_id": "3d845d2c7a13ad656a1a07a84c69d073e0dbebcb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDjq+rIrWZWTxkT\njTE3//csOpZdiCc+N+gik4echrg04TsHjorGUsuIgVUPzB+mJgT4wB2ZtqT5T3iu\nQ33h3uSul8IPlkSVkoVtpIfyzQPcUB9Q71JsDZTKPTg2TQZLlmQhOj4ch80gC0kD\n+Qg5Vi+BGgsYrlTYRsgbub7OuzuCsxEgtIfxRHiLHeLNMNtHUnax5y5O910JcRKk\naB4zncN86jfkYn0nCiq11M5PuatcoDLAyvram4PkFfVvhJMKG1G/bM61REc1wL3+\nRvEIOGePkykA8ACSSl5kHPqHoCMH1+e1lIX9qNtxtxo2Sq2fRuPOAe/7VLn3kVe7\nfWOHawvdAgMBAAECggEBAJ7gi9k62F2GmTNBpoUzxKNCx0fCCdCrZv0qAsrCYK3W\nN0FQwZsgkBRUXK3HfpaNlY6ZUo7AHGQ2hzrksmX7C46jLLN/46CVPTOES7KuSvFl\noFT0jYoF+D0hd6a9HZWF/54IbOuwAP9JoMx67rhEYqYvLGsuzNqYmnBusK7HjgHn\n7x5RtD6oOj86vWWK+nrfWPoBcn2QpgDNhKh8fBk/jZPw50PXiTPwMoWyc06I0NXa\ni4hRfTLQ50eV8cyxDdI83PweusomyS1CIDzEvs+VU+resV86v+FxaBZok27e7RMv\n/WonoeTsyfdVDJIYQ9zJ81GpFZR7y22kbklI2TTef2kCgYEA9ZvhMtJcpttHC3jH\nWkIx6cT9nC4L7acD2v9JNHa4Dqf+PPTzP1RkjeZVQK5tZzlpr75pEox1rl3HnhAg\nbDqmvUUYlps/Py6wVYLyx+khFsfsh3eP6vIWyD4ZhQ5pL3bGw9bd7YKBFmL+beSu\n+s5LdsopPPGLOwBinlVxq8j/dPMCgYEA7U3DV7dKpR8250UjyqEN8ejVwKlIHHQm\nuXEaAZuD5pX9tOTlOLiFT9gljLTgqWTmAr3LjDwFsTRq7Q9I9KYV3KuFrKCTqV9G\nVo2jeDan+J3mk5OhIibwfDuSWt2cZwK5v0qvUYi+EjbFoz6Jw5pq/DE336/e+ALK\n7kwiQDnK7+8CgYBuWG5A6wn9XR76JHVMM9lA8eQPOxDY4OR2i6NUEtJ2ozsyH8r5\ndO0IY6eBu9wjOEQnVSDX2Is2n6ODfDNU7LTk7Boz7+Pmew92G7L/5dmb5o55/lmG\ncOWTaXMFuIfBb1e1vN9QSgW9DRTKQqfqvqxg3krQuqSXCYFFKZY8W72JyQKBgEP3\n2PJ/wjaHOT+GcxjvhkH6kXasRcY4knrc5Tj+pQnffhpY0Tqsxyo2W5Lwn8SE7Mhu\nOiXBb1PxEosxrJC+HVbmHdRy7bg+XLQfv2mIJhY0i71LNITGqGy810+FV+29PxyG\nNK7ivqYS4ArAt865pNj08+7yvadFjYAxeEHzC6grAoGAImz2Nr20BagdtZO6xQ0O\nXW2SK31Ho/G969bCk5NPRH0gcTjVFR+RcmG7IcfFfbx1FCiw0X96E//Ou2xdB0Cs\naGOGjmsjhJ/6LRXtOaMw1P+a8MV7emQkpJuwc/Aib4XCg0BEIGPCSCZq6tds/ULz\nBBg4jz14SUto6ltGLa8lnJg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "speechproject@friendly-lamp-165519.iam.gserviceaccount.com",
+  "client_id": "108776166391900514665",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/speechproject%40friendly-lamp-165519.iam.gserviceaccount.com"
+}
+"""
+src=r.recognize_google_cloud(audio, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS)
+
 try:
     rand = random.randint(1, 9)
     print("You said: "+src)
@@ -45,7 +58,16 @@ try:
         time.sleep(2)
     elif name_str != newName:
         print("Hi, " + newName + "!")
-        os.system("espeak 'Hi' &")
+        if newName == "Menglu":
+            os.system("espeak 'Hi, Menglu' &")
+        elif newName == "Zhan":
+            os.system("espeak 'Hi, Zhan' &")
+        elif newName == "Yuxing":
+            os.system("espeak 'Hi, Yuxing' &")
+        elif newName == "Yankai":
+            os.system("espeak 'Hi, Yankai' &")
+        else:
+            os.system("espeak 'Hi there' &")
         time.sleep(2)
 
 
@@ -72,7 +94,7 @@ try:
         print("Searching on the Internet...")
         os.system("espeak 'Searching on the Internet' &")
         webbrowser.open('https://myneu.neu.edu/cp/home/displaylogin')
-    elif 'your' in src and 'favourite' in src and 'color' in src or 'colour' in src:
+    elif 'your' in src and 'favorite' in src and 'color' in src or 'colour' in src:
         print("My favourite color is bule, what about you?")
         os.system("espeak 'My favourite color is bule, what about you?' &")
     elif 'favourite' in src or 'song' in src:
