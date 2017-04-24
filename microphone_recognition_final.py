@@ -173,11 +173,11 @@ def recognition():
             QApplication.processEvents()
             os.system("espeak 'HaHaHaHaHaHa hahahahahahaha.' &")
             time.sleep(2)
-        elif 'your' in src and 'favorite' in src and 'color' in src or 'colour' in src:
+        elif 'color' in src or 'colour' in src:
             print("My favourite color is bule, what about you?")
             QApplication.processEvents()
             os.system("espeak 'My favourite color is bule, what about you?' &")
-        elif 'favorite' in src or 'song' in src:
+        elif 'song' in src:
             pygame.init()
             pygame.mixer.init()
             END = pygame.USEREVENT + 1
@@ -189,11 +189,12 @@ def recognition():
             while 1:
                 for event in pygame.event.get():
                     if event.type == END:
-                        sys.exit()
-            print("Do you like it? ;-)")
-            QApplication.processEvents()
-            os.system("espeak 'Do you like it?'&")
-            time.sleep(2)
+                        pygame.quit()
+                        print("Do you like it? ;-)")
+                        QApplication.processEvents()
+                        os.system("espeak 'Do you like it?'&")
+                        time.sleep(2)
+                        #sys.exit()
         elif 'big' in src or 'Big' in src and 'data' in src:
             print("Love you! Dino!")
             QApplication.processEvents()
@@ -253,9 +254,9 @@ def recognition():
                 os.system("espeak 'Sorry, I can't understand you.' &")
                 time.sleep(2)
             elif rand == 2:
-                    print("Oh go on.")
+                    print("Interesting question.")
                     QApplication.processEvents()
-                    os.system("espeak 'Oh go on.' &")
+                    os.system("espeak 'Interesting question.' &")
                     time.sleep(2)
             elif rand == 3:
                     print("Once again :-)")
