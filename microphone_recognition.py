@@ -155,17 +155,17 @@ try:
         print("HaHaHaHaHaHa hahahahahahaha.")
         os.system("espeak 'HaHaHaHaHaHa hahahahahahaha.' &")
         time.sleep(2)
-    elif 'your' in src and 'favorite' in src and 'color' in src or 'colour' in src:
+    elif 'color' in src or 'colour' in src:
         print("My favourite color is bule, what about you?")
         os.system("espeak 'My favourite color is bule, what about you?' &")
-    elif 'favorite' in src or 'song' in src:
+    elif 'song' in src:
         pygame.init()
         pygame.mixer.init()
         END = pygame.USEREVENT + 1
         pygame.mixer.music.set_endevent(END)
         track = pygame.mixer.music.load("audio/Shape of You.mp3")
         pygame.mixer.music.play()
-        pygame.mixer.music.fadeout(15000)
+        pygame.mixer.music.fadeout(10000)
 
         while 1:
             for event in pygame.event.get():
