@@ -33,6 +33,7 @@ def train():
                 print(wav + " error %s" % (e))
 
         m.train()
+        m.dump(output_model)
 
 
 if __name__ == '__main__':
