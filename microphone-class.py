@@ -14,8 +14,8 @@ import pyaudio
 from scipy.io import wavfile
 from python_speech_features import mfcc
 
-class microphone:
-    def main(self):
+
+def recognition():
         chunk = 1024
         FORMAT = pyaudio.paInt16
         CHANNELS = 1
@@ -273,5 +273,6 @@ def get_feature(fs, signal):
     return mfcc_feature
 
 
+
 if __name__ == '__main__':
-    microphone.main()
+    recognition()
