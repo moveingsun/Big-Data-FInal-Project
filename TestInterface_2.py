@@ -5,14 +5,14 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import QtCore
 import helloworld
-import train 
-from train import *
-import microphone_new
-from microphone_new import *
-import microphone_recognition
+import train_final 
+from train_final import *
+#import microphone_final
+#from microphone_final import *
+import microphone_recognition_final
 from microphone_recognition import *
-import audio_new
-from audio_new import *
+import audio_final
+from audio_final import *
 
 class App(QWidget):
     def __init__(self):
@@ -68,16 +68,16 @@ class App(QWidget):
     @pyqtSlot()
     def on_click(self):
 
-        self.process.start(train.train_model())
+        self.process.start(train_final.train_model())
 
     def on_click_2(self):
         print('Using the Microphone to test')
 
-        self.process.start(microphone_recognition.recognition())
+        self.process.start(microphone_recognition_final.recognition())
 
     def on_click_3(self):
         print('Using the Audio to test')
-        self.process.start(audio_new.audioRecognition())
+        self.process.start(audio_final.audioRecognition())
 
     def on_click_4(self):
         print('Using the Audio to test')
