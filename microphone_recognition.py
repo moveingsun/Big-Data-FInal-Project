@@ -224,8 +224,8 @@ try:
             os.system("espeak 'Sorry, I can't understand you.' &")
             time.sleep(2)
         elif rand == 2:
-                print("Oh go on.")
-                os.system("espeak 'Oh go on.' &")
+                print("Interesting question.")
+                os.system("espeak 'Interesting question.' &")
                 time.sleep(2)
         elif rand == 3:
                 print("Once again :-)")
