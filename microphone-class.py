@@ -274,4 +274,4 @@ def get_feature(fs, signal):
 
 
 if __name__ == '__main__':
-    main()
+    microphone.main()
