@@ -35,7 +35,7 @@ def task_enroll():
                 print(wav + " error %s"%(e))
 
         m.train()
-        m.dump(ModelInterface.load(path.join(path.dirname(path.realpath(__file__)), "model.out")))
+        m.dump("model.out")
 
 if __name__ == "__main__":
     task_enroll()
