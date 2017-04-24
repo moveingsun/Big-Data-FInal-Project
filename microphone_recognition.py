@@ -170,10 +170,10 @@ try:
         while 1:
             for event in pygame.event.get():
                 if event.type == END:
+                    print("Do you like it? ;-)")
+                    os.system("espeak 'Do you like it?'&")
+                    time.sleep(2)
                     sys.exit()
-        print("Do you like it? ;-)")
-        os.system("espeak 'Do you like it?'&")
-        time.sleep(2)
     elif 'big' in src or 'Big' in src and 'data' in src:
         print("Love you! Dino!")
         os.system("espeak 'Love you! Dino!' &")
