@@ -33,7 +33,7 @@ def train():
                 print(wav + " error %s" % (e))
 
         m.train()
-        m.dump(output_model)
+        m.dump(ModelInterface.load(path.join(path.dirname(path.realpath(__file__)), "model.out")))
 
 
 if __name__ == '__main__':
