@@ -20,7 +20,7 @@ import pyaudio
 chunk = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
-RATE = 22050
+RATE = 16000
 RECORD_SECONDS = 5
 filename = "microphone-results.wav"
 WAVE_OUTPUT_FILENAME = filename
