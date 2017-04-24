@@ -10,7 +10,7 @@ from train_final import *
 #import microphone_final
 #from microphone_final import *
 import microphone_recognition_final
-from microphone_recognition import *
+from microphone_recognition_final import *
 import audio_final
 from audio_final import *
 
