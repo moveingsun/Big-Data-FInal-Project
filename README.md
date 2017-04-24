@@ -15,3 +15,5 @@ install espeak
 install python_speech_features
 
 install speech_recognition
+
+install google_api_client
