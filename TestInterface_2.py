@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import QtCore
-import helloworld
+#import helloworld
 import train_final 
 from train_final import *
 #import microphone_final
